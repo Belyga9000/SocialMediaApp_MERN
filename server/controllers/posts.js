@@ -1,5 +1,22 @@
 import PostMessage from "../models/postMessage.js";
 
+export const updatePost = async (req, res) => {
+  const { id } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(id))
+    return res.status(404).send("No post with such id");
+
+  const updatePost = PostMessage.findByIdAndUpdate(id, post, { new: true });
+};
+
+export const deletePost = async (req, res) => {
+  const { id } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(id))
+    return res.status(404).send(`No post with such id: ${id}`);
+  await PostMessage.findByIdAndRemove(id);
+};
+
 export const getPosts = async (req, res) => {
   try {
     const postMessages = await PostMessage.find();
